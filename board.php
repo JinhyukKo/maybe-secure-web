@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+include __DIR__ . "/header.php";
 
 $stmt = $pdo->query("
     SELECT p.id, p.title, u.username, p.created_at
