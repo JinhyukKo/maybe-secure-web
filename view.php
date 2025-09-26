@@ -1,6 +1,9 @@
 <?php
 require_once 'config.php';
 
+include __DIR__ . '/checkauth.php';
+include __DIR__ . "/header.php";
+
 $post_id = $_GET['id'];
 
 $sql = "SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.id WHERE p.id = $post_id";
