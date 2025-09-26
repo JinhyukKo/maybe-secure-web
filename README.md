@@ -11,7 +11,7 @@ php -S localhost:4444
 ```
 더미데이터 유저
 alice:password (normal user)
-bob:password (admin)
+bob:password (admin)fdd
 ```
 
 
