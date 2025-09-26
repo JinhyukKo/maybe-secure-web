@@ -3,18 +3,13 @@ require_once 'config.php';
 
 $post_id = $_GET['id'];
 
-$stmt = $pdo->prepare("
-    SELECT p.*, u.username
-    FROM posts p
-    JOIN users u ON p.user_id = u.id
-    WHERE p.id = ?
-");
-$stmt->execute([$post_id]);
-$post = $stmt->fetch();
+$sql = "SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.id WHERE p.id = $post_id";
+$result = $pdo->query($sql);
+$post = $result->fetch();
 
-$stmt = $pdo->prepare("SELECT * FROM files WHERE post_id = ?");
-$stmt->execute([$post_id]);
-$files = $stmt->fetchAll();
+$sql = "SELECT * FROM files WHERE post_id = $post_id";
+$result = $pdo->query($sql);
+$files = $result->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -41,14 +36,17 @@ $files = $stmt->fetchAll();
         <ul>
         <?php foreach ($files as $file): ?>
             <li>
-                <a href="download.php?id=<?php echo $file['id']; ?>">
-                    <?php echo $file['original_filename']; ?>
+                <a href="uploads/<?php echo $file['real_filename']; ?>" download>
+                    <?php echo $file['real_filename']; ?>
                 </a>
             </li>
         <?php endforeach; ?>
         </ul>
     <?php endif; ?>
 
-    <p><a href="board.php">목록으로</a></p>
+    <p>
+        <a href="board.php">목록으로</a> |
+        <a href="delete.php?id=<?php echo $post['id']; ?>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+    </p>
 </body>
 </html>
