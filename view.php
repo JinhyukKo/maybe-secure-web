@@ -1,18 +1,11 @@
 <?php
 require_once 'config.php';
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
-
 
 $post_id = $_GET['id'];
 
 $sql = "SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.id WHERE p.id = $post_id";
 $result = $pdo->query($sql);
 $post = $result->fetch();
-
-$sql = "SELECT * FROM files WHERE post_id = $post_id";
-$result = $pdo->query($sql);
-$files = $result->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -33,19 +26,10 @@ $files = $result->fetchAll();
     <div>
         <?php echo nl2br($post['content']); ?>
     </div>
-
-    <?php if ($files): ?>
-        <h3>첨부파일</h3>
-        <ul>
-        <?php foreach ($files as $file): ?>
-            <li>
-                <a href="uploads/<?php echo $file['real_filename']; ?>" download>
-                    <?php echo $file['real_filename']; ?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-        </ul>
+    <?php if($post['filename']): ?>
+        <a href="uploads/<?= $post['filename']?>" class="btn btn-info" download><?= $post['filename']?></a>
     <?php endif; ?>
+        
 
     <p>
         <a href="board.php">목록으로</a> |

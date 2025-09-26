@@ -1,31 +1,24 @@
 <?php
 require_once 'config.php';
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+    
+    $title = $_POST['title'] ?? '';
+    $content = $_POST['content'] ?? '';
     $user_id = $_SESSION['user_id'];
+    $filename = '';
 
-    $stmt = $pdo->prepare("INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)");
-    $stmt->execute([$title, $content, $user_id]);
-    $post_id = $pdo->lastInsertId();
-
-    if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
-        if (!file_exists('uploads')) {
-            mkdir('uploads');
-        }
-
-        $filename = uniqid() . '_' . $_FILES['file']['name'];
-        move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
-
-        $stmt = $pdo->prepare("INSERT INTO files (post_id, filename, original_filename, file_size) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$post_id, $filename, $_FILES['file']['name'], $_FILES['file']['size']]);
+    if (isset($_FILES['upload']) && $_FILES['upload']['error'] === UPLOAD_ERR_OK){
+        $filename = $_FILES['upload']['name'];
+        $tmp_name = $_FILES['upload']['tmp_name'];
+        move_uploaded_file($tmp_name, "uploads/" . $filename);
     }
 
-    header("Location: view.php?id=" . $post_id);
+    $sql = "INSERT INTO posts (user_id, title, content, filename) values($user_id, '$title', '$content', '$filename')";
+
+    $pdo->query($sql);
+
+    header("Location: index.php");
     exit();
 }
 ?>
@@ -56,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <p>
             파일: <br>
-            <input type="file" name="file">
+            <input type="file" name="upload">
         </p>
 
         <p>

@@ -17,17 +17,8 @@ CREATE TABLE posts (
     title VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
     user_id INT NOT NULL,
+    filename VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- 첨부파일 테이블
-CREATE TABLE files (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    post_id INT NOT NULL,
-    filename VARCHAR(255) NOT NULL,
-    original_filename VARCHAR(255) NOT NULL,
-    file_size INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
-);
