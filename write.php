@@ -1,5 +1,7 @@
 <?php
 require_once 'config.php';
+include __DIR__ . '/checkauth.php';
+include __DIR__ . "/header.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
