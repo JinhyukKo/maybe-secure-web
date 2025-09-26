@@ -1,5 +1,7 @@
 <?php
 require_once 'config.php';
+include __DIR__ . "/header.php";
+
 
 $post_id = $_GET['id'];
 
