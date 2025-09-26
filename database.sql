@@ -27,7 +27,7 @@ CREATE TABLE posts (
     user_id INT NOT NULL,
     filename VARCHAR(255),
     role ENUM('user','admin') NOT NULL DEFAULT 'user',
-    secret BOOLEAN NOT NULL DEFAULT FALSE,
+    isSecret BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -42,12 +42,11 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
--- users 더미 데이터 2개 비번은 둘 다 'password'
 INSERT INTO users (username, email, password, role)
 VALUES
 ('alice', 'alice@example.com', '$2a$12$z48Ha4BLyQFUm/ecFLiE1Ot7T4QOPW5GKRt8nEU8X32J6txRrirH.', 'user'), 
 ('bob', 'bob@example.com', '$2a$12$z48Ha4BLyQFUm/ecFLiE1Ot7T4QOPW5GKRt8nEU8X32J6txRrirH.', 'admin');
+
 
 -- posts 더미 데이터 2개
 INSERT INTO posts (title, content, user_id, filename,role)
