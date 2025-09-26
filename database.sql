@@ -39,7 +39,7 @@ VALUES
 ('bob', 'bob@example.com', '$2a$12$z48Ha4BLyQFUm/ecFLiE1Ot7T4QOPW5GKRt8nEU8X32J6txRrirH.', 'admin');
 
 -- posts 더미 데이터 2개
-INSERT INTO posts (title, content, user_id, filename)
+INSERT INTO posts (title, content, user_id, filename,role)
 VALUES
-('첫 번째 게시글', '이것은 첫 번째 게시글 내용입니다.', 1, 'file1.txt'),
-('관리자 게시글', '관리자가 작성한 게시글 내용입니다.', 2, 'file2.txt');
+('첫 번째 게시글', '이것은 첫 번째 게시글 내용입니다.', 1, 'file1.txt','user'),
+('관리자 게시글', '관리자가 작성한 게시글 내용입니다.', 2, 'file2.txt','admin');
