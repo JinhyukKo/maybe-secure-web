@@ -1,7 +1,7 @@
 <?php
-// board.php (검색 + 역할 컬럼 추가 버전)
+// board.php (검색 + 역할 컬럼 추가 버전, view.php로 검색 상태 유지하며 이동)
 session_start();
-require __DIR__ . '/db.php'; // $pdo (PDO) 필요
+require __DIR__ . '/config.php'; // $pdo (PDO) 필요
 
 // --- 입력 파라미터 ---
 $q      = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -56,6 +56,13 @@ ORDER BY p.created_at DESC, p.id DESC
 
 $stmt = $pdo->query($sql);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 현재 검색 파라미터를 쿼리스트링으로 만들기 (view.php로 보낼 용도)
+$preserveQs = http_build_query([
+    'q'     => $q,
+    'field' => $field,
+    'role'  => $role,
+]);
 ?>
 <!doctype html>
 <html lang="ko">
@@ -73,6 +80,8 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     select { padding: 6px 8px; }
     button { padding: 6px 12px; cursor: pointer; }
     .no-results { color: #999; font-style: italic; margin: 20px 0; }
+    a { text-decoration: none; color: #0066cc; }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -91,7 +100,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </label>
     <label>
       키워드
-      <input type="text" name="q" value="<?= $q ?>" placeholder="검색어 입력">
+      <input type="text" name="q" value="<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" placeholder="검색어 입력">
     </label>
     <label>
       역할
@@ -109,7 +118,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <!-- 목록 -->
   <?php if (!$rows && $q !== ''): ?>
-    <p class="no-results">"<?= $q ?>"에 대한 검색 결과가 없습니다.</p>
+    <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>"에 대한 검색 결과가 없습니다.</p>
   <?php elseif (!$rows): ?>
     <p class="muted">게시글이 없습니다.</p>
   <?php else: ?>
@@ -125,12 +134,26 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </thead>
       <tbody>
         <?php foreach ($rows as $r): ?>
+          <?php
+            // 안전하게 출력 (제목/작성자 등)
+            $id = (int)$r['id'];
+            $title = htmlspecialchars($r['title'], ENT_QUOTES, 'UTF-8');
+            $author = htmlspecialchars($r['author_name'], ENT_QUOTES, 'UTF-8');
+            $created = htmlspecialchars($r['created_at'], ENT_QUOTES, 'UTF-8');
+            $roleName = htmlspecialchars($r['role_name'], ENT_QUOTES, 'UTF-8');
+
+            // view.php로 보낼 링크 (현재 검색 상태 유지)
+            $link = 'view.php?id=' . $id;
+            if ($preserveQs !== '') {
+                $link .= '&' . $preserveQs;
+            }
+          ?>
           <tr>
-            <td><?= $r['id'] ?></td>
-            <td><?= $r['title'] ?></td>
-            <td><?= $r['author_name'] ?></td>
-            <td><?= $r['created_at'] ?></td>
-            <td><?= $r['role_name'] ?></td>
+            <td><?= $id ?></td>
+            <td><a href="<?= $link ?>"><?= $title ?></a></td>
+            <td><?= $author ?></td>
+            <td><?= $created ?></td>
+            <td><?= $roleName ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
