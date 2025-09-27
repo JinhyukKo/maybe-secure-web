@@ -1,5 +1,5 @@
 <?php
-include '../auth/checkauth.php';
+include '../auth/login_required.php';
 require_once '../config.php';
 include '../header.php';
 $post_id = (int)($_GET['id'] ?? 0);

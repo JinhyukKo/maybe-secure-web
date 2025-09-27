@@ -1,6 +1,6 @@
 <?php
 // board.php (검색 + 역할 컬럼 추가 버전, view.php로 검색 상태 유지하며 이동)
-include '../auth/checkauth.php';
+include '../auth/login_required.php';
 require '../config.php'; // $pdo (PDO) 필요
 include '../header.php';
 // --- 입력 파라미터 ---
