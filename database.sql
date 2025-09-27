@@ -61,6 +61,17 @@ CREATE TABLE messages (
 
 -- subject : 쪽지제목, isRead : 읽음 여부, read_at : 쪽지 읽은 시간
 
+-- 비밀번호 초기화
+CREATE TABLE password_resets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  token_hash VARCHAR(255) NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
 INSERT INTO users (username, email, password, role)
 VALUES
 ('alice', 'alice@example.com', '$2a$12$z48Ha4BLyQFUm/ecFLiE1Ot7T4QOPW5GKRt8nEU8X32J6txRrirH.', 'user'), 
