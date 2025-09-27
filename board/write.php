@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
+include '../auth/login_required.php';
+require_once '../config.php';
+include '../header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title   = $_POST['title'] ?? '';
@@ -15,16 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['upload']) && $_FILES['upload']['error'] === UPLOAD_ERR_OK){
         $filename = $_FILES['upload']['name'];
         $tmp_name = $_FILES['upload']['tmp_name'];
-        @mkdir(__DIR__ . "/uploads", 0777, true);
         move_uploaded_file($tmp_name, __DIR__ . "/uploads/" . $filename);
     }
 
     // ✅ is_secret 저장 (기존 스타일 유지: 단순 쿼리)
-    $sql = "INSERT INTO posts (user_id, title, content, filename, is_secret)
+    $sql = "INSERT INTO posts (user_id, title, content, filename, isSecret)
             VALUES ($user_id, '$title', '$content', '$filename', $is_secret)";
     $pdo->query($sql);
 
-    header("Location: index.php");
+    header("Location: board.php");
     exit();
 }
 ?>

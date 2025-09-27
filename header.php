@@ -3,4 +3,3 @@
         echo "Hello! ".$_SESSION['username'];
     ?>
 </div>
-

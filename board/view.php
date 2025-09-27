@@ -1,9 +1,7 @@
 <?php
-require_once 'config.php';
-include __DIR__ . '/checkauth.php'; // 세션(user_id, role) 확인
-include __DIR__ . "/header.php";
-
-session_start(); // 혹시 모를 세션 사용
+include '../auth/login_required.php';
+require_once '../config.php';
+include '../header.php';
 $post_id = (int)($_GET['id'] ?? 0);
 
 // 작성글 + 작성자 role 함께 조회 (비밀글/권한 확인용)
@@ -87,8 +85,7 @@ $comments = $pdo->query("
     <h1><?= htmlspecialchars($post['title'], ENT_QUOTES, 'UTF-8') ?></h1>
 
     <p>
-        <a href="index.php">메인</a> |
-        <a href="board.php">게시판</a>
+        <a href="board.php">게시판으로</a>
     </p>
 
     <p>작성자: <?= htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8') ?>

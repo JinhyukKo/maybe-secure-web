@@ -1,7 +1,6 @@
 <?php
-require_once 'config.php';
-
-
+include './logout_required.php';
+require_once '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -14,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        header("Location: index.php");
+        $file = $_SERVER['DOCUMENT_ROOT'].'/index.php';
+        header("Location: /");
         exit();
     } else {
         echo "로그인 실패";
@@ -44,6 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </p>
     </form>
 
-    <p><a href="register.php">회원가입</a> | <a href="index.php">메인</a></p>
+    <p><a href="register.php">회원가입</a></p>
 </body>
 </html>

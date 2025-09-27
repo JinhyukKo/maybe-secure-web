@@ -1,6 +1,8 @@
 <?php
-require_once 'config.php';
-include __DIR__ . '/checkauth.php';
+include '../auth/login_required.php';
+require_once '../config.php';
+include '../header.php';
+
 
 $post_id = $_GET['id'];
 

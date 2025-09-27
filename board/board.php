@@ -1,8 +1,8 @@
 <?php
 // board.php (검색 + 역할 컬럼 추가 버전, view.php로 검색 상태 유지하며 이동)
-require __DIR__ . '/config.php'; // $pdo (PDO) 필요
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
+require __DIR__ . '/../config.php'; // $pdo (PDO) 필요
+include __DIR__ . '/../auth/checkauth.php';
+include __DIR__ . "/../header.php";
 
 // --- 입력 파라미터 ---
 $q      = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -113,7 +113,7 @@ $preserveQs = http_build_query([
     </label>
     <button type="submit">검색</button>
     <?php if ($q!=='' || $role!==''): ?>
-      <a href="board.php" style="align-self:center">초기화</a>
+      <a href="/board/board.php" style="align-self:center">초기화</a>
     <?php endif; ?>
   </form>
 
@@ -144,7 +144,7 @@ $preserveQs = http_build_query([
             $roleName = htmlspecialchars($r['role_name'], ENT_QUOTES, 'UTF-8');
 
             // view.php로 보낼 링크 (현재 검색 상태 유지)
-            $link = 'view.php?id=' . $id;
+            $link = '/board/view.php?id=' . $id;
             if ($preserveQs !== '') {
                 $link .= '&' . $preserveQs;
             }
@@ -160,5 +160,8 @@ $preserveQs = http_build_query([
       </tbody>
     </table>
   <?php endif; ?>
+  <a href="/board/write.php">글쓰기</a>
+  <a href="/board/profile.php">프로필</a>
+  <a href="/auth/logout.php">로그아웃</a>
 </body>
 </html>

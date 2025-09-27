@@ -1,6 +1,6 @@
 <?php
-    require_once 'config.php';
-    include __DIR__ . '/checkauth.php';
+    include '../auth/login_required.php';
+    require_once '../config.php';
 
     $username = $_SESSION['username'];
 
