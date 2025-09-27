@@ -1,5 +1,6 @@
 <?php
-require_once 'config.php';
+include './logout_required.php';
+require_once '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
