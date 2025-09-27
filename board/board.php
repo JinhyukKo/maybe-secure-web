@@ -68,7 +68,7 @@ $preserveQs = http_build_query([
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>게시판</title>
+  <title>Board</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
     form.search { margin: 16px 0; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -85,7 +85,7 @@ $preserveQs = http_build_query([
   </style>
 </head>
 <body>
-  <h1>게시판</h1>
+  <h1>Board</h1>
 
   <!-- 검색 폼 -->
   <form class="search" method="get" action="">
@@ -115,7 +115,12 @@ $preserveQs = http_build_query([
       <a href="board.php" style="align-self:center">Reset</a>
     <?php endif; ?>
   </form>
-
+  <div>
+     <a href="/board/write.php">Write Posts</a> |
+    <a href="/board/profile.php">MyProfile</a> |
+    <a href="/auth/logout.php">Logout</a>
+  </div>
+ 
   <!-- 목록 -->
   <?php if (!$rows && $q !== ''): ?>
     <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" No Result Found.</p>
@@ -159,8 +164,6 @@ $preserveQs = http_build_query([
       </tbody>
     </table>
   <?php endif; ?>
-  <a href="/board/write.php">글쓰기</a>
-  <a href="/board/profile.php">프로필</a>
-  <a href="/auth/logout.php">로그아웃</a>
+
 </body>
 </html>

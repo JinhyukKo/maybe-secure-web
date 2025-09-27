@@ -17,16 +17,17 @@ $recent_posts = $stmt->fetchAll();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Board</title>
+    <title>Simple Board Main Page</title>
 </head>
 <body>
-    <h1>Simple Board</h1>
+    <h1>Simple Board Main Page</h1>
 
     <?php if (isset($_SESSION['user_id'])): ?>
         <p>Welcome, <?php echo $_SESSION['username']; ?> !</p>
+        <p>How's your day today ?</p>
         <p>
             <a href="/board/board.php">Board</a> |
-            <a href="/board/write.php">Write Posts</a> |
+            <a href="/board/profile.php">MyProfile</a> |
             <a href="/auth/logout.php">Logout</a>
         </p>
     <?php else: ?>

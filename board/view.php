@@ -149,7 +149,7 @@ $comments = $pdo->query("
         <p>
           <textarea name="comment_content" rows="4" placeholder="put your comment here"></textarea>
         </p>
-        <p><button type="submit">Register</button></p>
+        <p><button type="submit">Write</button></p>
       </form>
     <?php else: ?>
       <p class="muted">Only Authenticated users can comment</p>

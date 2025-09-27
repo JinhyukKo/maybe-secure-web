@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </p>
 
         <p>
-            <input type="submit" value="작성">
+            <input type="submit" value="Write">
         </p>
     </form>
 </body>
