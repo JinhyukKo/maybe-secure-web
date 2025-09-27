@@ -1,5 +1,6 @@
 <?php
-require_once '/config.php';
+include './checkNotLogined.php';
+require_once '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];

@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
+include '../auth/checkauth.php';
+require_once '../config.php';
+include '../header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title   = $_POST['title'] ?? '';

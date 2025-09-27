@@ -1,9 +1,7 @@
 <?php
-require_once 'config.php';
-include __DIR__ . '/checkauth.php'; // 세션(user_id, role) 확인
-include __DIR__ . "/header.php";
-
-session_start(); // 혹시 모를 세션 사용
+include '../auth/checkauth.php';
+require_once '../config.php';
+include '../header.php';
 $post_id = (int)($_GET['id'] ?? 0);
 
 // 작성글 + 작성자 role 함께 조회 (비밀글/권한 확인용)

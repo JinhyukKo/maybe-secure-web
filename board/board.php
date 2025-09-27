@@ -1,9 +1,8 @@
 <?php
 // board.php (검색 + 역할 컬럼 추가 버전, view.php로 검색 상태 유지하며 이동)
-require __DIR__ . '/config.php'; // $pdo (PDO) 필요
-include __DIR__ . '/checkauth.php';
-include __DIR__ . "/header.php";
-
+include '../auth/checkauth.php';
+require '../config.php'; // $pdo (PDO) 필요
+include '../header.php';
 // --- 입력 파라미터 ---
 $q      = isset($_GET['q']) ? trim($_GET['q']) : '';
 $field  = isset($_GET['field']) ? $_GET['field'] : 'title'; // title|content|author|all
