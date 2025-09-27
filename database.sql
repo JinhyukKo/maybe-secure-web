@@ -42,6 +42,36 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- 쪽지 테이블
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    subject VARCHAR(200) NOT NULL,
+    content TEXT NOT NULL,
+    isRead BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    read_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_receiver_unread (receiver_id, is_read),
+    INDEX idx_sender (sender_id),
+    INDEX idx_created_at (created_at)
+);
+
+-- subject : 쪽지제목, isRead : 읽음 여부, read_at : 쪽지 읽은 시간
+
+-- 비밀번호 초기화
+CREATE TABLE password_resets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  token_hash VARCHAR(255) NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
 INSERT INTO users (username, email, password, role)
 VALUES
 ('alice', 'alice@example.com', '$2a$12$z48Ha4BLyQFUm/ecFLiE1Ot7T4QOPW5GKRt8nEU8X32J6txRrirH.', 'user'), 
