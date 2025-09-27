@@ -16,22 +16,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>회원가입</title>
+    <title>Register</title>
 </head>
 <body>
-    <h1>회원가입</h1>
+    <h1>Register</h1>
 
     <form method="POST">
         <p>
-            사용자명: <br>
+            username: <br>
             <input type="text" name="username">
         </p>
         <p>
-            이메일: <br>
+            email: <br>
             <input type="email" name="email">
         </p>
         <p>
-            비밀번호: <br>
+            password: <br>
             <input type="password" name="password">
         </p>
         <p>
@@ -39,6 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </p>
     </form>
 
-    <p><a href="login.php">로그인</a> | <a href="index.php">메인</a></p>
+    <p><a href="login.php">Login</a>
 </body>
 </html>

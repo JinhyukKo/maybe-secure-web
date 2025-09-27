@@ -41,10 +41,10 @@
         <input type="file" name="upload">
     </div>
     <div>
-        <p>이름:<?php echo $profile['username']; ?></p>
+        <p>name:<?php echo $profile['username']; ?></p>
     </div>
     <div>
-        <p>메일:<?php echo $profile['email']; ?></p>
+        <p>email:<?php echo $profile['email']; ?></p>
     </div>
     <input type="submit" value="수정">
 </form>

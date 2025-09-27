@@ -13,7 +13,7 @@ $post = $result->fetch();
 
 if (!$post) {
     http_response_code(404);
-    exit('존재하지 않는 게시글입니다.');
+    exit('The post does not exist ');
 }
 
 $myId   = $_SESSION['user_id'] ?? 0;
@@ -26,8 +26,8 @@ $isAdmin  = ($myRole === 'admin');
 // ✅ 서버 측 강제 차단: 비밀글은 본인 또는 admin만
 if ($isSecret && !($isOwner || $isAdmin)) {
     http_response_code(403);
-    echo "<h2>비밀글입니다.</h2><p>작성자 또는 관리자만 열람할 수 있습니다.</p>";
-    echo '<p><a href="board.php">목록으로</a></p>';
+    echo "<h2>Secret Post.</h2><p>The author and admin are allowed to read this content.</p>";
+    echo '<p><a href="board.php">List</a></p>';
     exit;
 }
 
@@ -107,9 +107,9 @@ $comments = $pdo->query("
     <?php endif; ?>
 
     <p>
-        <a href="board.php">목록으로</a> |
+        <a href="board.php">List</a> |
         <?php if ($isOwner || $isAdmin): ?>
-          <a href="delete.php?id=<?= (int)$post['id']; ?>" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+          <a href="delete.php?id=<?= (int)$post['id']; ?>" onclick="return confirm('Confirm to Delete')">Delete</a>
         <?php endif; ?>
     </p>
 
@@ -131,7 +131,7 @@ $comments = $pdo->query("
               <span class="comment-actions">
                 <form method="post" style="display:inline">
                   <input type="hidden" name="delete_comment_id" value="<?= (int)$c['id'] ?>">
-                  <button type="submit" onclick="return confirm('댓글을 삭제할까요?')">삭제</button>
+                  <button type="submit" onclick="return confirm('Will you delete this comment?')">Delete</button>
                 </form>
               </span>
             <?php endif; ?>
@@ -139,19 +139,20 @@ $comments = $pdo->query("
         </div>
       <?php endforeach; ?>
     <?php else: ?>
-      <p class="muted">댓글이 없습니다.</p>
+      <p class="muted">No comments yet</p>
     <?php endif; ?>
 
     <?php if (isset($_SESSION['user_id'])): ?>
-      <h3>댓글 작성</h3>
+      <h3>Write Comments
+      </h3>
       <form method="post">
         <p>
-          <textarea name="comment_content" rows="4" placeholder="댓글을 입력하세요"></textarea>
+          <textarea name="comment_content" rows="4" placeholder="put your comment here"></textarea>
         </p>
-        <p><button type="submit">등록</button></p>
+        <p><button type="submit">Register</button></p>
       </form>
     <?php else: ?>
-      <p class="muted">댓글 작성은 로그인 후 가능합니다.</p>
+      <p class="muted">Only Authenticated users can comment</p>
     <?php endif; ?>
 </body>
 </html>

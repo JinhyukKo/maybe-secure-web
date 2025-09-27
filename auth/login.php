@@ -25,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>로그인</title>
+    <title>LOGIN</title>
 </head>
 <body>
-    <h1>로그인</h1>
+    <h1>LOGIN</h1>
 
     <form method="POST">
         <p>
@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="submit" value="로그인">
         </p>
     </form>
-    <a href="reset_password.php">password 초기화</a>
+    <a href="reset_password.php">password reset</a>
 
-    <p><a href="register.php">회원가입</a>
+    <p><a href="register.php">register</a>
 </body>
 </html>

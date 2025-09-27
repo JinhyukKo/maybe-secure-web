@@ -90,46 +90,46 @@ $preserveQs = http_build_query([
   <!-- 검색 폼 -->
   <form class="search" method="get" action="">
     <label>
-      검색구분
+      Filter
       <select name="field">
-        <option value="title"   <?= $field==='title'?'selected':''; ?>>제목</option>
-        <option value="content" <?= $field==='content'?'selected':''; ?>>내용</option>
-        <option value="author"  <?= $field==='author'?'selected':''; ?>>작성자</option>
-        <option value="all"     <?= $field==='all'?'selected':''; ?>>전체(제목+내용+작성자)</option>
+        <option value="title"   <?= $field==='title'?'selected':''; ?>>Title</option>
+        <option value="content" <?= $field==='content'?'selected':''; ?>>Contents</option>
+        <option value="author"  <?= $field==='author'?'selected':''; ?>>Author</option>
+        <option value="all"     <?= $field==='all'?'selected':''; ?>>All(Title+Contents+Author)</option>
       </select>
     </label>
     <label>
-      키워드
-      <input type="text" name="q" value="<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" placeholder="검색어 입력">
+      Keyword
+      <input type="text" name="q" value="<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" placeholder="Search">
     </label>
     <label>
-      역할
+      Role
       <select name="role">
-        <option value=""        <?= $role===''?'selected':''; ?>>전체</option>
+        <option value=""        <?= $role===''?'selected':''; ?>>All</option>
         <option value="user"    <?= $role==='user'?'selected':''; ?>>user</option>
         <option value="admin"   <?= $role==='admin'?'selected':''; ?>>admin</option>
       </select>
     </label>
-    <button type="submit">검색</button>
+    <button type="submit">Search</button>
     <?php if ($q!=='' || $role!==''): ?>
-      <a href="board.php" style="align-self:center">초기화</a>
+      <a href="board.php" style="align-self:center">Reset</a>
     <?php endif; ?>
   </form>
 
   <!-- 목록 -->
   <?php if (!$rows && $q !== ''): ?>
-    <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>"에 대한 검색 결과가 없습니다.</p>
+    <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" No Result Found.</p>
   <?php elseif (!$rows): ?>
-    <p class="muted">게시글이 없습니다.</p>
+    <p class="muted">No Content Found.</p>
   <?php else: ?>
     <table>
       <thead>
         <tr>
-          <th style="width:80px">번호</th>
-          <th>제목</th>
-          <th style="width:160px">작성자</th>
-          <th style="width:180px">작성일</th>
-          <th style="width:120px">역할</th>
+          <th style="width:80px">Number</th>
+          <th>Title</th>
+          <th style="width:160px">Author</th>
+          <th style="width:180px">Created_At</th>
+          <th style="width:120px">Role</th>
         </tr>
       </thead>
       <tbody>
