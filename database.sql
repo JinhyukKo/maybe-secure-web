@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS board_system;
 USE board_system;
 
-DROP TABLE IF EXISTS password_resets
+DROP TABLE IF EXISTS password_resets;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS files;
