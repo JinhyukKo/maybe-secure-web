@@ -2,10 +2,14 @@
 CREATE DATABASE IF NOT EXISTS board_system;
 USE board_system;
 
-
+DROP TABLE IF EXISTS password_resets
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS files;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users; 
+
+
 
 
 -- 사용자 테이블
@@ -49,7 +53,7 @@ CREATE TABLE messages (
     receiver_id INT NOT NULL,
     subject VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
-    isRead BOOLEAN NOT NULL DEFAULT FALSE,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     read_at TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
