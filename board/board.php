@@ -159,5 +159,8 @@ $preserveQs = http_build_query([
       </tbody>
     </table>
   <?php endif; ?>
+  <a href="/board/write.php">글쓰기</a>
+  <a href="/board/profile.php">프로필</a>
+  <a href="/auth/logout.php">로그아웃</a>
 </body>
 </html>

@@ -37,17 +37,6 @@ $recent_posts = $stmt->fetchAll();
         </p>
     <?php endif; ?>
 
-    <h2>New Posts</h2>
-    <ul>
-        <?php foreach ($recent_posts as $post): ?>
-            <li>
-                <a href="view.php?id=<?php echo $post['id']; ?>">
-                    <?php echo $post['title']; ?>
-                </a>
-                - <?php echo $post['username']; ?>
-                (<?php echo $post['created_at']; ?>)
-            </li>
-        <?php endforeach; ?>
-    </ul>
+    
 </body>
 </html>
