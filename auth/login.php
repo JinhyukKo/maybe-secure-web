@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
         $file = $_SERVER['DOCUMENT_ROOT'].'/index.php';
         header("Location: /");
         exit();
@@ -25,25 +26,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>로그인</title>
+    <title>LOGIN</title>
 </head>
 <body>
-    <h1>로그인</h1>
+    <h1>LOGIN</h1>
 
     <form method="POST">
         <p>
-            사용자명: <br>
+            username : <br>
             <input type="text" name="username">
         </p>
         <p>
-            비밀번호: <br>
+            password : <br>
             <input type="password" name="password">
         </p>
         <p>
             <input type="submit" value="로그인">
         </p>
     </form>
+    <a href="reset_password.php">password reset</a>
 
-    <p><a href="register.php">회원가입</a> | <a href="../index.php">메인</a></p>
+    <p><a href="register.php">register</a>
 </body>
 </html>

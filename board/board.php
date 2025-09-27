@@ -68,7 +68,7 @@ $preserveQs = http_build_query([
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>게시판</title>
+  <title>Board</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
     form.search { margin: 16px 0; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -85,62 +85,69 @@ $preserveQs = http_build_query([
   </style>
 </head>
 <body>
-  <h1>게시판</h1>
+  <h1>Board</h1>
 
   <!-- 검색 폼 -->
   <form class="search" method="get" action="">
     <label>
-      검색구분
+      Filter
       <select name="field">
-        <option value="title"   <?= $field==='title'?'selected':''; ?>>제목</option>
-        <option value="content" <?= $field==='content'?'selected':''; ?>>내용</option>
-        <option value="author"  <?= $field==='author'?'selected':''; ?>>작성자</option>
-        <option value="all"     <?= $field==='all'?'selected':''; ?>>전체(제목+내용+작성자)</option>
+        <option value="title"   <?= $field==='title'?'selected':''; ?>>Title</option>
+        <option value="content" <?= $field==='content'?'selected':''; ?>>Contents</option>
+        <option value="author"  <?= $field==='author'?'selected':''; ?>>Author</option>
+        <option value="all"     <?= $field==='all'?'selected':''; ?>>All(Title+Contents+Author)</option>
       </select>
     </label>
     <label>
-      키워드
-      <input type="text" name="q" value="<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" placeholder="검색어 입력">
+      Keyword
+      <!-- XSS 취약점: htmlspecialchars 제거 -->
+      <input type="text" name="q" value="<?= $q ?>" placeholder="Search">
     </label>
     <label>
-      역할
+      Role
       <select name="role">
-        <option value=""        <?= $role===''?'selected':''; ?>>전체</option>
+        <option value=""        <?= $role===''?'selected':''; ?>>All</option>
         <option value="user"    <?= $role==='user'?'selected':''; ?>>user</option>
         <option value="admin"   <?= $role==='admin'?'selected':''; ?>>admin</option>
       </select>
     </label>
-    <button type="submit">검색</button>
+    <button type="submit">Search</button>
     <?php if ($q!=='' || $role!==''): ?>
-      <a href="board.php" style="align-self:center">초기화</a>
+      <a href="board.php" style="align-self:center">Reset</a>
     <?php endif; ?>
   </form>
-
+  <div>
+     <a href="/board/write.php">Write Posts</a> |
+    <a href="/board/profile.php">MyProfile</a> |
+    <a href="/auth/logout.php">Logout</a>
+  </div>
+ 
   <!-- 목록 -->
   <?php if (!$rows && $q !== ''): ?>
-    <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>"에 대한 검색 결과가 없습니다.</p>
+    <!-- XSS 취약점: htmlspecialchars 제거 -->
+    <p class="no-results">"<?= $q ?>" No Result Found.</p>
   <?php elseif (!$rows): ?>
-    <p class="muted">게시글이 없습니다.</p>
+    <p class="muted">No Content Found.</p>
   <?php else: ?>
     <table>
       <thead>
         <tr>
-          <th style="width:80px">번호</th>
-          <th>제목</th>
-          <th style="width:160px">작성자</th>
-          <th style="width:180px">작성일</th>
-          <th style="width:120px">역할</th>
+          <th style="width:80px">Number</th>
+          <th>Title</th>
+          <th style="width:160px">Author</th>
+          <th style="width:180px">Created_At</th>
+          <th style="width:120px">Role</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($rows as $r): ?>
           <?php
-            // 안전하게 출력 (제목/작성자 등)
+            // XSS 취약점: htmlspecialchars 제거
             $id = (int)$r['id'];
-            $title = htmlspecialchars($r['title'], ENT_QUOTES, 'UTF-8');
-            $author = htmlspecialchars($r['author_name'], ENT_QUOTES, 'UTF-8');
-            $created = htmlspecialchars($r['created_at'], ENT_QUOTES, 'UTF-8');
-            $roleName = htmlspecialchars($r['role_name'], ENT_QUOTES, 'UTF-8');
+            $title = $r['title']; // htmlspecialchars 제거
+            $author = $r['author_name']; // htmlspecialchars 제거
+            $created = $r['created_at']; // htmlspecialchars 제거
+            $roleName = $r['role_name']; // htmlspecialchars 제거
 
             // view.php로 보낼 링크 (현재 검색 상태 유지)
             $link = 'view.php?id=' . $id;
@@ -150,7 +157,9 @@ $preserveQs = http_build_query([
           ?>
           <tr>
             <td><?= $id ?></td>
+            <!-- XSS 취약점: title에 스크립트 삽입 가능 -->
             <td><a href="<?= $link ?>"><?= $title ?></a></td>
+            <!-- XSS 취약점: author에 스크립트 삽입 가능 -->
             <td><?= $author ?></td>
             <td><?= $created ?></td>
             <td><?= $roleName ?></td>
@@ -159,5 +168,6 @@ $preserveQs = http_build_query([
       </tbody>
     </table>
   <?php endif; ?>
+
 </body>
 </html>

@@ -25,6 +25,6 @@ $pdo->query($sql);
 $sql = "DELETE FROM posts WHERE id = $post_id";
 $pdo->query($sql);
 
-header("Location: board.php");
+header("Location: /board/board.php");
 exit();
 ?>

@@ -19,41 +19,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($tmp_name, __DIR__ . "/uploads/" . $filename);
     }
 
-    // ✅ is_secret 저장 (기존 스타일 유지: 단순 쿼리)
-    $sql = "INSERT INTO posts (user_id, title, content, filename, is_secret)
+    // ✅ isSecret 저장 (기존 스타일 유지: 단순 쿼리)
+    $sql = "INSERT INTO posts (user_id, title, content, filename, isSecret)
             VALUES ($user_id, '$title', '$content', '$filename', $is_secret)";
     $pdo->query($sql);
 
-    header("Location: index.php");
+    header("Location: board.php");
     exit();
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>글쓰기</title>
+    <title>Write Posts</title>
 </head>
 <body>
-    <h1>글쓰기</h1>
+    <h1>Write Posts</h1>
 
     <p>
-        <a href="index.php">메인</a> |
-        <a href="board.php">게시판</a>
+        <a href="../index.php">Main</a> |
+        <a href="board.php">Board</a>
     </p>
 
     <form method="POST" enctype="multipart/form-data">
         <p>
-            제목: <br>
+            Title: <br>
             <input type="text" name="title" size="50">
         </p>
 
         <p>
-            내용: <br>
+            Content : <br>
             <textarea name="content" rows="10" cols="60"></textarea>
         </p>
 
         <p>
-            파일: <br>
+            File : <br>
             <input type="file" name="upload">
         </p>
 
@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p>
             <label>
                 <input type="checkbox" name="is_secret" value="1">
-                비밀글로 설정 (작성자와 관리자만 열람)
+                Set as private (only the author and administrators can view)
             </label>
         </p>
 
         <p>
-            <input type="submit" value="작성">
+            <input type="submit" value="Write">
         </p>
     </form>
 </body>
