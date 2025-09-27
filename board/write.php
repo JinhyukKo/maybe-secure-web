@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // ✅ is_secret 저장 (기존 스타일 유지: 단순 쿼리)
-    $sql = "INSERT INTO posts (user_id, title, content, filename, is_secret)
+    $sql = "INSERT INTO posts (user_id, title, content, filename, isSecret)
             VALUES ($user_id, '$title', '$content', '$filename', $is_secret)";
     $pdo->query($sql);
 
