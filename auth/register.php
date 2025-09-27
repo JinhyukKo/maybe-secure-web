@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     $stmt->execute([$username, $email, $password]);
-    echo "회원가입 완료. <a href='login.php'>로그인</a>";
+    echo "Regisration Compelete. <a href='login.php'>Login/a>";
 }
 ?>
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" name="password">
         </p>
         <p>
-            <input type="submit" value="회원가입">
+            <input type="submit" value="register">
         </p>
     </form>
 
