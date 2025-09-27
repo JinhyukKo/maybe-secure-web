@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             VALUES ($user_id, '$title', '$content', '$filename', $is_secret)";
     $pdo->query($sql);
 
-    header("Location: index.php");
+    header("Location: ../board/board.php");
     exit();
 }
 ?>
