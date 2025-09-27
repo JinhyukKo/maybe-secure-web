@@ -32,18 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <form method="POST">
         <p>
-            사용자명: <br>
+            username : <br>
             <input type="text" name="username">
         </p>
         <p>
-            비밀번호: <br>
+            password : <br>
             <input type="password" name="password">
         </p>
         <p>
             <input type="submit" value="로그인">
         </p>
     </form>
+    <a href="reset_password.php">password 초기화</a>
 
-    <p><a href="register.php">회원가입</a> | <a href="../index.php">메인</a></p>
+    <p><a href="register.php">회원가입</a>
 </body>
 </html>
