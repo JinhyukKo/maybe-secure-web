@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($tmp_name, __DIR__ . "/uploads/" . $filename);
     }
 
-    // ✅ is_secret 저장 (기존 스타일 유지: 단순 쿼리)
+    // ✅ isSecret 저장 (기존 스타일 유지: 단순 쿼리)
     $sql = "INSERT INTO posts (user_id, title, content, filename, isSecret)
             VALUES ($user_id, '$title', '$content', '$filename', $is_secret)";
     $pdo->query($sql);
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Write Posts</h1>
 
     <p>
-        <a href="index.php">Main</a> |
+        <a href="../index.php">Main</a> |
         <a href="board.php">Board</a>
     </p>
 

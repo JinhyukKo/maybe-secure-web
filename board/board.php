@@ -100,7 +100,8 @@ $preserveQs = http_build_query([
     </label>
     <label>
       Keyword
-      <input type="text" name="q" value="<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" placeholder="Search">
+      <!-- XSS 취약점: htmlspecialchars 제거 -->
+      <input type="text" name="q" value="<?= $q ?>" placeholder="Search">
     </label>
     <label>
       Role
@@ -123,7 +124,8 @@ $preserveQs = http_build_query([
  
   <!-- 목록 -->
   <?php if (!$rows && $q !== ''): ?>
-    <p class="no-results">"<?= htmlspecialchars($q, ENT_QUOTES, 'UTF-8') ?>" No Result Found.</p>
+    <!-- XSS 취약점: htmlspecialchars 제거 -->
+    <p class="no-results">"<?= $q ?>" No Result Found.</p>
   <?php elseif (!$rows): ?>
     <p class="muted">No Content Found.</p>
   <?php else: ?>
@@ -140,12 +142,12 @@ $preserveQs = http_build_query([
       <tbody>
         <?php foreach ($rows as $r): ?>
           <?php
-            // 안전하게 출력 (제목/작성자 등)
+            // XSS 취약점: htmlspecialchars 제거
             $id = (int)$r['id'];
-            $title = htmlspecialchars($r['title'], ENT_QUOTES, 'UTF-8');
-            $author = htmlspecialchars($r['author_name'], ENT_QUOTES, 'UTF-8');
-            $created = htmlspecialchars($r['created_at'], ENT_QUOTES, 'UTF-8');
-            $roleName = htmlspecialchars($r['role_name'], ENT_QUOTES, 'UTF-8');
+            $title = $r['title']; // htmlspecialchars 제거
+            $author = $r['author_name']; // htmlspecialchars 제거
+            $created = $r['created_at']; // htmlspecialchars 제거
+            $roleName = $r['role_name']; // htmlspecialchars 제거
 
             // view.php로 보낼 링크 (현재 검색 상태 유지)
             $link = 'view.php?id=' . $id;
@@ -155,7 +157,9 @@ $preserveQs = http_build_query([
           ?>
           <tr>
             <td><?= $id ?></td>
+            <!-- XSS 취약점: title에 스크립트 삽입 가능 -->
             <td><a href="<?= $link ?>"><?= $title ?></a></td>
+            <!-- XSS 취약점: author에 스크립트 삽입 가능 -->
             <td><?= $author ?></td>
             <td><?= $created ?></td>
             <td><?= $roleName ?></td>

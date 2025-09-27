@@ -22,13 +22,29 @@ $myRole = $_SESSION['role'] ?? 'user';
 $isSecret = (int)$post['is_secret'] === 1;
 $isOwner  = ($myId == (int)$post['user_id']);
 $isAdmin  = ($myRole === 'admin');
+$isAuthorAdmin = ($post['author_role'] === 'admin');
 
-// ✅ 서버 측 강제 차단: 비밀글은 본인 또는 admin만
-if ($isSecret && !($isOwner || $isAdmin)) {
-    http_response_code(403);
-    echo "<h2>Secret Post.</h2><p>The author and admin are allowed to read this content.</p>";
-    echo '<p><a href="board.php">List</a></p>';
-    exit;
+// ✅ 수정된 비밀글 접근 제어: 
+// - 관리자가 작성한 비밀글은 관리자만 접근 가능
+// - 일반 사용자가 작성한 비밀글은 작성자와 관리자만 접근 가능
+if ($isSecret) {
+    if ($isAuthorAdmin) {
+        // 관리자가 작성한 비밀글: 관리자만 접근 가능
+        if (!$isAdmin) {
+            http_response_code(403);
+            echo "<h2>Secret Post.</h2><p>This is an admin's secret post. Only administrators are allowed to read this content.</p>";
+            echo '<p><a href="board.php">List</a></p>';
+            exit;
+        }
+    } else {
+        // 일반 사용자가 작성한 비밀글: 작성자 또는 관리자만 접근 가능
+        if (!($isOwner || $isAdmin)) {
+            http_response_code(403);
+            echo "<h2>Secret Post.</h2><p>The author and admin are allowed to read this content.</p>";
+            echo '<p><a href="board.php">List</a></p>';
+            exit;
+        }
+    }
 }
 
 /* ======================
@@ -73,7 +89,8 @@ $comments = $pdo->query("
 <html>
 <head>
     <meta charset="utf-8">
-    <title><?= htmlspecialchars($post['title'], ENT_QUOTES, 'UTF-8') ?></title>
+    <!-- XSS 취약점: htmlspecialchars 제거 -->
+    <title><?= $post['title'] ?></title>
     <style>
       .comment { border-top:1px solid #eee; padding:8px 0; }
       .comment .meta { color:#666; font-size:12px; }
@@ -82,27 +99,34 @@ $comments = $pdo->query("
     </style>
 </head>
 <body>
-    <h1><?= htmlspecialchars($post['title'], ENT_QUOTES, 'UTF-8') ?></h1>
+    <!-- XSS 취약점: htmlspecialchars 제거 -->
+    <h1><?= $post['title'] ?></h1>
 
     <p>
-        <a href="index.php">메인</a> |
-        <a href="board.php">게시판</a>
+        <a href="../index.php">main</a> |
+        <a href="board.php">borad</a>
     </p>
 
-    <p>작성자: <?= htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8') ?>
-       | 작성일: <?= htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8') ?>
+    <!-- XSS 취약점: htmlspecialchars 제거 -->
+    <p>작성자: <?= $post['username'] ?>
+       | 작성일: <?= $post['created_at'] ?>
        <?php if ($isSecret): ?>
          | <strong>🔒 비밀글</strong>
+         <?php if ($isAuthorAdmin): ?>
+           | <em>(Admin's Secret Post)</em>
+         <?php endif; ?>
        <?php endif; ?>
     </p>
 
     <div>
-        <?= nl2br(htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8')) ?>
+        <!-- XSS 취약점: htmlspecialchars와 nl2br 제거, HTML/스크립트 실행 가능 -->
+        <?= $post['content'] ?>
     </div>
 
     <?php if($post['filename']): ?>
-        <p><a href="uploads/<?= htmlspecialchars($post['filename'], ENT_QUOTES, 'UTF-8')?>" download>
-            <?= htmlspecialchars($post['filename'], ENT_QUOTES, 'UTF-8')?>
+        <!-- XSS 취약점: htmlspecialchars 제거 -->
+        <p><a href="uploads/<?= $post['filename']?>" download>
+            <?= $post['filename']?>
         </a></p>
     <?php endif; ?>
 
@@ -122,11 +146,13 @@ $comments = $pdo->query("
       <?php foreach ($comments as $c): ?>
         <div class="comment">
           <div class="meta">
-            <?= htmlspecialchars($c['username'], ENT_QUOTES, 'UTF-8') ?>
-            (<?= htmlspecialchars($c['created_at'], ENT_QUOTES, 'UTF-8') ?>)
+            <!-- XSS 취약점: htmlspecialchars 제거 -->
+            <?= $c['username'] ?>
+            (<?= $c['created_at'] ?>)
           </div>
           <div class="body">
-            <?= nl2br(htmlspecialchars($c['content'], ENT_QUOTES, 'UTF-8')) ?>
+            <!-- XSS 취약점: htmlspecialchars와 nl2br 제거, HTML/스크립트 실행 가능 -->
+            <?= $c['content'] ?>
             <?php if ($isAdmin || (int)$c['user_id'] === (int)$_SESSION['user_id']): ?>
               <span class="comment-actions">
                 <form method="post" style="display:inline">
